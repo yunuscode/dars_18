@@ -1,0 +1,31 @@
+<%- include('parts/header') %>
+
+<section class="mt-4">
+    <div class="container mt-4">
+        <div class="card">
+            <div class="row">
+                <div class="col-4">
+                    <label for="photo">
+                        <img width="400" height="400" style="object-fit: cover;" src="<%= photo %>" alt="User photo" class="card-img-top">
+                    </label>
+                    <% if(profile.id == id){%>
+                    <input class="visually-hidden" id="photo" type="file">
+                    <% } %>
+                </div>
+                <div class="col-8 p-4">
+                    <h2 class="card-title"><%= profile.name %>'s profile</h2>
+                    <ul class="mt-4">
+                        <li>
+                            <p class="fs-4">Email: <%= profile.email %></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="../js/profile.js"></script>
+
+<%- include('parts/footer') %>

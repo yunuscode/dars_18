@@ -16,14 +16,21 @@ app.listen(PORT, _ => console.log(`SERVER READY AT http://localhost:${PORT}`))
 
 
 // Middlewares -- start
-const authMiddleware = require('./middlewares/auth')
 const cookieParser = require('cookie-parser');
+
+let middlewarePath = path.join(__dirname, 'middlewares')
+fs.readdir(middlewarePath, (err, files) => {
+    files.forEach(file => {
+        let filePath = path.join(middlewarePath, file)
+        let Middleware = require(filePath)
+        if(Middleware.middleware && Middleware.forAll) app.use(Middleware.middleware)
+    })
+})
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(cookieParser())
-app.use(authMiddleware)
 // Middlewares -- end
 
 

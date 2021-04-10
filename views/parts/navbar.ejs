@@ -1,4 +1,4 @@
-<% let user_name %>
+<% var name, path, id %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <a class="navbar-brand" href="/">Sayt.uz</a>
@@ -12,11 +12,11 @@
           <a class="nav-link <%= path == "/" ? 'active' : ''%>" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <%= path == "/about" ? 'active' : ''%>" aria-current="page" href="/about">About</a>
+          <a class="nav-link <%= path == "/chat" ? 'active' : ''%>" aria-current="page" href="/chat">Chat</a>
         </li>
-        <% if(user_name) {%>
+        <% if(name) {%>
         <li class="nav-item">
-          <a class="nav-link <%= path == "/profile" ? 'active' : ''%>" aria-current="page" href="/profile"><%= user_name ? user_name : "" %></a>
+          <a class="nav-link <%= path == "/profile" ? 'active' : ''%>" aria-current="page" href="/user/<%= id %>"><%= name ? name : "" %></a>
         </li>
         <li class="nav-item">
           <a class="nav-link <%= path == "/exit" ? 'active' : ''%>" aria-current="page"

@@ -1,0 +1,56 @@
+<%- include("parts/header")%>
+
+<% var error, messages%>
+
+<section>
+    <div class="container mt-4">
+        <h1>Chat</h1>
+        <% if(error) {%>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+            <% } %>
+            <form action="/chat" method="POST" style="margin-top: 30px;" class="chat-form mt-4">
+                <div class="form-floating mt-4">
+                    <textarea class="form-control d-block" placeholder="Chatting" id="floatingTextarea2" name="message" style="min-height: 100px; max-height: 200px;" required></textarea>
+                    <label for="floatingTextarea2">Message</label>
+                </div>
+                <div class="input-group mt-4">
+                    <button class="btn btn-outline-primary w-50" type="submit">Send</button>
+                    <a href="/chat" class="btn btn-outline-primary w-50" type="button">Yangilash</a>
+                </div>
+            </form>
+            <ul class="messages list-unstyled mt-4">
+                <% for(let message of messages) {%>
+                    <% if(id !== message?.user?.id) {%>
+                        <li class="send my-2">
+                            <div class="card w-50">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <a href="/user/<%= message.user?.id %>" class="m-0 p-0 fs-4"><%= message.user?.name %></a>
+                                    <time><%= message.time %></time>
+                                </div>
+                                <div class="card-body text-start">
+                                    <%= message.body %>
+                                </div>
+                            </div>
+                        </li>
+                        <% } else { %>
+                            <li class="receive my-2">
+                                <div class="card w-50 ms-auto">
+                                    <div class="card-header d-flex justify-content-between align-items-center flex-row-reverse">
+                                         <a href="/user/<%= message.user?.id %>" class="m-0 p-0 fs-4"><%= message.user?.name %></a>
+                                        <time><%= message.time %></time>
+                                </div>
+                                <div class="card-body text-start">
+                                    <%= message.body %>
+                                </div>
+                                </div>
+                            </li>
+                            <% } %>
+                            <%}%>
+                        </ul>
+                    </div>
+                </section>
+                
+                
+                <%- include("parts/footer")%>

@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const users = require('../data')
 
 const { generateHash } = require('../modules/crypt')
-const { v4: uuidv4 } = require('uuid');
+
+const { createUser } = require('../models/UserModel')
 
 
 router.get('/', (req, res) => {
@@ -24,14 +24,9 @@ router.post('/', async (req, res) => {
         } = req.body
         if (!(email && name && password)) throw ("Fields aren't completed")
 
-        if(findUser(email)) throw ("This email already in use")
+        password = await generateHash(password)
 
-        users.push({
-            id: uuidv4(),
-            email: email,
-            name: name,
-            password: await generateHash(password)
-        })
+        await createUser(email, name, password )
 
         res.redirect('/login')
 
@@ -49,8 +44,4 @@ router.post('/', async (req, res) => {
 module.exports = {
     path: "/registration",
     router: router
-}
-
-function findUser (email) {
-    return users.find(user => user.email == email)
 }

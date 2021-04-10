@@ -1,7 +1,9 @@
 <%- include('parts/header') %>
+<% var name %>
 <main class="mt-4">
     <div class="container text-center">
-        <h1>Assalomu alaykum <%= user_name ? user_name : "Mehmon" %></h1>
+        <h1 class="mb-4">Assalomu alaykum <%= name ? name + ". Chat ga xush kelibsiz" : "Mehmon. Chatga kirish uchun ro'yxatdan o'ting" %></h1>
+        <a href='/chat'>Chat</a>
     </div>
 </main>
 

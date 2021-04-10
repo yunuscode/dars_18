@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const users = require('../data')
+
+const { findUser } = require('../models/UserModel')
 
 const {
     confirmHash
@@ -29,11 +30,11 @@ router.post('/', async (req, res) => {
             password
         } = req.body
         if (!(email && password)) throw 'Email or Password not found'
-        let user = findUser(email)
+        let user = await findUser(email)
         if (!user) throw 'User not found'
         let isTrust = await confirmHash(password, user.password)
         if(!isTrust) throw 'Password is incorrect'
-        let token = generateToken({ id: user.id })
+        let token = generateToken({ email: user.email })
 
         res
             .cookie('token', token)
@@ -52,10 +53,4 @@ router.post('/', async (req, res) => {
 module.exports = {
     path: "/login",
     router: router
-}
-
-
-
-function findUser(email) {
-    return users.find(user => user.email == email)
 }

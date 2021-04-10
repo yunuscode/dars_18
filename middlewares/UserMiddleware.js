@@ -1,14 +1,23 @@
 const users = require('../data')
 const { checkToken } = require('../modules/jwt')
 
-module.exports = async (req, res, next) => {
+const { findUser } = require('../models/UserModel')
+
+module.exports = {
+    middleware: middleware,
+    forAll: true
+}
+
+async function middleware (req, res, next) {
     let token = req.cookies?.token
     if(token){
         let user = checkToken(token)
-        user = findUser(user.id)
+        console.log(user);
+        user = await findUser(user.email)
+        console.log(user);
         if(user){
             req.user = {
-                id: user.id,
+                id: user._id,
                 name: user.name,
                 email: user.email
             }
@@ -16,8 +25,4 @@ module.exports = async (req, res, next) => {
     }
 
     next()
-}
-
-function findUser (id){
-    return users.find(user => user.id == id)
 }
